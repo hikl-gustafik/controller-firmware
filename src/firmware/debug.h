@@ -1,8 +1,14 @@
 #pragma once
 
-#include <stdio.h>
 
-#if !defined(RELEASE) && !defined(DIST)
+#ifdef DIST
+
+#define ASSERT(condition, ...)
+#define DEBUG(message)
+
+#else
+
+#include <stdio.h>
 
 #define ASSERT(condition, ...) \
     do { \
@@ -20,10 +26,5 @@
         printf(__VA_ARGS__); \
         printf("\n"); \
     } while(0)
-
-#else
-
-#define ASSERT(condition, message)
-#define DEBUG(message)
 
 #endif
