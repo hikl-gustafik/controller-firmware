@@ -1,3 +1,5 @@
+# https://clangd.llvm.org/config.html
+
 CompileFlags:
   # https://github.com/clangd/clangd/issues/844
   # https://github.com/espressif/esp-idf/issues/6721#issuecomment-997150632
@@ -7,3 +9,9 @@ CompileFlags:
     - -mtext-section-literals
     - -mlongcalls
     - -fstrict-volatile-bitfields
+Diagnostics:
+  Suppress:
+    # Bad hack to solve clangd not being able to see certain files
+    # that it should (LSP issue only, builds fine)
+    # TODO: Find an actual solution
+    - pp_file_not_found
