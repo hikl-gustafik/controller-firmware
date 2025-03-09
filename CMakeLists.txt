@@ -5,6 +5,6 @@ set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
 include($ENV{IDF_PATH}/tools/cmake/project.cmake)
 
-set(EXTRA_COMPONENT_DIRS src)
+set(EXTRA_COMPONENT_DIRS components)
 
-project(myproj)
+project(firmware-v2)
