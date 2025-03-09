@@ -1,6 +1,5 @@
 #pragma once
 
-
 #ifdef DIST
 
 #define ASSERT(condition, ...)
