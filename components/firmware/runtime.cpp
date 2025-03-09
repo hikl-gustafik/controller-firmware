@@ -5,7 +5,7 @@
 #include "freertos/idf_additions.h"
 #include "freertos/projdefs.h"
 
-static Runtime* s_Instance;
+static Runtime* s_Instance = nullptr;
 
 Runtime::Runtime() {
 }
