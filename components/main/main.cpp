@@ -4,6 +4,11 @@
 
 class TestTestLayer : public Layer {
 protected:
+    virtual void Initialize() override {
+        auto& dev = Runtime::Instance().getDisplay().getDevice();
+        ssd1306_display_text(&dev, 0, (char*)"Hello", 5, false);
+    }
+
     virtual void Process() override {
         DEBUG("Test test");
     }
