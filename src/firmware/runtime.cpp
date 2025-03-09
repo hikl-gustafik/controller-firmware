@@ -39,20 +39,20 @@ Runtime& Runtime::Instance() {
 
 void Runtime::BeginLoop() {
     while (!m_ShouldStop) {
-        if (m_ActiveApp) {
-            m_ActiveApp->Process();
+        if (m_ActiveLayer) {
+            m_ActiveLayer->InternalProcess();
         }
         vTaskDelay(pdMS_TO_TICKS(10));
     }
 }
 
-void Runtime::Switch(App* app) {
-    ASSERT(app, "Attempted to switch to null app!");
+void Runtime::Switch(Layer* layer) {
+    ASSERT(layer, "Attempted to switch to null layer!");
 
-    if (m_ActiveApp) {
-        m_ActiveApp->Shutdown();
+    if (m_ActiveLayer) {
+        m_ActiveLayer->InternalShutdown();
     }
 
-    m_ActiveApp = app;
-    m_ActiveApp->Initialize();
+    m_ActiveLayer = layer;
+    m_ActiveLayer->InternalInitialize();
 }

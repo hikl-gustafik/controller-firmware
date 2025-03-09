@@ -1,9 +1,22 @@
-#include "app.h"
 #include "debug.h"
+#include "layer.h"
 #include "runtime.h"
 
-class TestApp : public App {
-public:
+class TestTestLayer : public Layer {
+protected:
+    virtual void Process() override {
+        DEBUG("Test test");
+    }
+};
+
+class TestLayer : public Layer {
+protected:
+    TestTestLayer testTestLayer;
+
+    virtual void Initialize() override {
+        StartSync(&testTestLayer);
+    }
+
     virtual void Process() override {
         DEBUG("Test");
     }
@@ -12,9 +25,9 @@ public:
 extern "C" void app_main(void) {
     Runtime::Initialize();
 
-    TestApp testApp;
+    TestLayer testLayer;
 
-    Runtime::Instance().Switch(&testApp);
+    Runtime::Instance().Switch(&testLayer);
     Runtime::Instance().BeginLoop();
 
     Runtime::Shutdown();
