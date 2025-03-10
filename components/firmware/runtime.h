@@ -1,5 +1,6 @@
 #pragma once
 
+#include "input.h"
 #include "layer.h"
 
 #include <Adafruit_GFX.h>
@@ -14,6 +15,7 @@ public:
     ~Runtime();
 
     inline Display& GetDisplay() { return m_Display; }
+    inline Input& GetInput() { return m_Input; }
 
     /**
      * @brief Start the program loop.
@@ -37,6 +39,7 @@ public:
     void Switch(Layer* layer);
 private:
     Display m_Display;
+    Input m_Input;
 
     bool m_ShouldStop = false;
     Layer* m_ActiveLayer = nullptr;

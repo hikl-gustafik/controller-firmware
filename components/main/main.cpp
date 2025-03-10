@@ -12,11 +12,11 @@ protected:
     int VelX = 1;
     int VelY = -1;
 
-    virtual void Initialize(Runtime& runtime) override {
+    void Initialize(Runtime& runtime) override {
         runtime.GetDisplay().clearDisplay();
     }
 
-    virtual void Process(Runtime& runtime) override {
+    void Process(Runtime& runtime) override {
         static const int screenX = runtime.GetDisplay().width();
         static const int screenY = runtime.GetDisplay().height();
 
@@ -37,10 +37,33 @@ protected:
     }
 };
 
+class JoyPos : public Layer {
+    void Process(Runtime& runtime) override {
+        auto& display = runtime.GetDisplay();
+        display.clearDisplay();
+        display.setTextColor(WHITE);
+        display.setTextSize(1);
+        // LJX
+        display.setCursor(0, 0);
+        display.print(runtime.GetInput().LeftJoystickX());
+        // LJY
+        display.setCursor(0, 15);
+        display.print(runtime.GetInput().LeftJoystickY());
+        // RJX
+        display.setCursor(0, 30);
+        display.print(runtime.GetInput().RightJoystickX());
+        // RJY
+        display.setCursor(0, 45);
+        display.print(runtime.GetInput().RightJoystickY());
+        //
+        display.display();
+    }
+};
+
 extern "C" void app_main(void) {
     Runtime runtime;
 
-    Bounce testLayer;
+    JoyPos testLayer;
 
     runtime.Switch(&testLayer);
     runtime.BeginLoop();

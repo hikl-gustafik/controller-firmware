@@ -1,19 +1,15 @@
 #include "runtime.h"
 
+#include "config.h"
 #include "debug.h"
 
 #include <freertos/FreeRTOS.h>
 #include "Wire.h"
 
-#define FW_SCREEN_WIDTH 128
-#define FW_SCREEN_HEIGHT 64
-#define FW_SCREEN_ADDRESS 0x3C
-#define FW_RESET -1
-
 static const char* TAG = "runtime";
 
 Runtime::Runtime() :
-    m_Display(FW_SCREEN_WIDTH, FW_SCREEN_HEIGHT, &Wire, FW_RESET)
+    m_Display(FW_SCREEN_WIDTH, FW_SCREEN_HEIGHT, &Wire, FW_PIN_RESET)
 {
     ESP_LOGI(TAG, "Initializing...");
 
@@ -21,6 +17,7 @@ Runtime::Runtime() :
         m_Display.begin(SSD1306_SWITCHCAPVCC, FW_SCREEN_ADDRESS),
         "SSD1306 allocation failed!"
     );
+    m_Display.setRotation(2); // Upside down
     m_Display.clearDisplay();
 }
 
