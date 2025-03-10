@@ -8,7 +8,7 @@ git clone --rescursive https://github.com/hikl-gustafik/controller-firmware.git
 
 - [X] Layer runtime
 - [X] Display
-- [d] Input
+- [X] Input - *In Progress*
 - [ ] Vibration
 - [ ] Motion detection
 - [ ] Wi-fi
