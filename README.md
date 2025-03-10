@@ -1,7 +1,7 @@
 # Firmware
 
 ```bash
-git clone --rescursive hikl-gustafik/controller-firmware
+git clone --rescursive https://github.com/hikl-gustafik/controller-firmware.git
 ```
 
 ## Roadmap
