@@ -1,0 +1,25 @@
+#define FW_SCREEN_WIDTH 128
+#define FW_SCREEN_HEIGHT 64
+#define FW_SCREEN_ADDRESS 0x3C
+
+#define FW_PIN_RESET -1
+
+#define FW_PIN_RJX 36
+#define FW_PIN_RJY 39
+#define FW_PIN_RJZ 33
+#define FW_PIN_LJX 35
+#define FW_PIN_LJY 34
+#define FW_PIN_LJZ 32
+
+#define FW_JOYSTICK_THEORETICAL_MAX 4095
+#define FW_JOYSTICK_MAX 3600
+#define FW_JOYSTICK_MIN 0
+#define FW_JOYSTICK_DEADZONE 0.08
+
+#define FW_PIN_B1 12
+#define FW_PIN_B2 14
+#define FW_PIN_B3 13
+#define FW_PIN_B4 16
+
+#define FW_PIN_LSPEAKER 25
+#define FW_PIN_RSPEAKER 26
