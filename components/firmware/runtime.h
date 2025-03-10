@@ -1,24 +1,41 @@
 #pragma once
 
-#include "display.h"
 #include "layer.h"
+
+#include <Adafruit_GFX.h>
+#include <Adafruit_SSD1306.h>
+#include <Arduino.h>
+
+using Display = Adafruit_SSD1306;
 
 class Runtime {
 public:
-    static void Initialize();
-    static void Shutdown();
-    static Runtime& Instance();
-
-    inline Display& getDisplay() { return m_Display; }
-
-    // Starts the program loop.
-    void BeginLoop();
-    // Shuts down the current active layer and loads the new one.
-    void Switch(Layer* layer);
-private:
     Runtime();
     ~Runtime();
 
+    inline Display& GetDisplay() { return m_Display; }
+
+    /**
+     * @brief Start the program loop.
+     *
+     * Must be called explicitly!
+     */
+    void BeginLoop(unsigned int tickDelayMs = 10);
+
+    /**
+     * @brief Stop the program loop.
+     *
+     * Should be run from within the loop.
+     */
+    void EndLoop();
+
+    /**
+     * @brief Shut down the current active layer and load the new one.
+     *
+     * Load = construct and initialize.
+     */
+    void Switch(Layer* layer);
+private:
     Display m_Display;
 
     bool m_ShouldStop = false;

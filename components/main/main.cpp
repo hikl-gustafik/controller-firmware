@@ -1,39 +1,47 @@
-#include "debug.h"
+#include "Adafruit_SSD1306.h"
 #include "layer.h"
 #include "runtime.h"
 
-class TestTestLayer : public Layer {
+class Bounce : public Layer {
+public:
+    int PosX = 25;
+    int PosY = 25;
+    int SclX  = 10;
+    int SclY = SclX;
 protected:
-    virtual void Initialize() override {
-        auto& dev = Runtime::Instance().getDisplay().getDevice();
-        ssd1306_display_text(&dev, 0, (char*)"Hello", 5, false);
+    int VelX = 1;
+    int VelY = -1;
+
+    virtual void Initialize(Runtime& runtime) override {
+        runtime.GetDisplay().clearDisplay();
     }
 
-    virtual void Process() override {
-        DEBUG("Test test");
-    }
-};
+    virtual void Process(Runtime& runtime) override {
+        static const int screenX = runtime.GetDisplay().width();
+        static const int screenY = runtime.GetDisplay().height();
 
-class TestLayer : public Layer {
-protected:
-    TestTestLayer testTestLayer;
+        // Clear
+        runtime.GetDisplay().drawRect(PosX, PosY, SclX, SclY, BLACK);
 
-    virtual void Initialize() override {
-        StartSync(&testTestLayer);
-    }
+        // Check collision
+        if (PosX + VelX < 0 || PosX + SclX + VelX >= screenX) { VelX *= -1; }
+        if (PosY + VelY < 0 || PosY + SclY + VelY >= screenY) { VelY *= -1; }
 
-    virtual void Process() override {
-        DEBUG("Test");
+        // Move
+        PosX += VelX;
+        PosY += VelY;
+
+        // Draw
+        runtime.GetDisplay().drawRect(PosX, PosY, SclX, SclY, WHITE);
+        runtime.GetDisplay().display();
     }
 };
 
 extern "C" void app_main(void) {
-    Runtime::Initialize();
+    Runtime runtime;
 
-    TestLayer testLayer;
+    Bounce testLayer;
 
-    Runtime::Instance().Switch(&testLayer);
-    Runtime::Instance().BeginLoop();
-
-    Runtime::Shutdown();
+    runtime.Switch(&testLayer);
+    runtime.BeginLoop();
 }

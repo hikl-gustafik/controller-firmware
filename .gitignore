@@ -1,3 +1,6 @@
 .cache/
+managed_components/
+
 build/
+
 *.old
