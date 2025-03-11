@@ -55,6 +55,24 @@ class JoyPos : public Layer {
         // RJY
         display.setCursor(0, 45);
         display.print(runtime.GetInput().RightJoystickY());
+        // LJZ
+        display.setCursor(48, 0);
+        display.print(runtime.GetInput().LeftJoystickButton());
+        // RJZ
+        display.setCursor(64, 0);
+        display.print(runtime.GetInput().RightJoystickButton());
+        // B1
+        display.setCursor(48, 15);
+        display.print(runtime.GetInput().Button1());
+        // B2
+        display.setCursor(64, 15);
+        display.print(runtime.GetInput().Button2());
+        // B3
+        display.setCursor(48, 30);
+        display.print(runtime.GetInput().Button3());
+        // B4
+        display.setCursor(64, 30);
+        display.print(runtime.GetInput().Button4());
         //
         display.display();
     }

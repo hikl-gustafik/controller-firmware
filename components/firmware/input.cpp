@@ -50,3 +50,27 @@ double Input::RightJoystickX() {
 double Input::RightJoystickY() {
     return FormatJoystickOutput(analogRead(FW_PIN_RJY));
 }
+
+bool Input::LeftJoystickButton(int state) {
+    return digitalRead(FW_PIN_LJZ) == state;
+}
+
+bool Input::RightJoystickButton(int state) {
+    return digitalRead(FW_PIN_RJZ) == state;
+}
+
+bool Input::Button1(int state) {
+    return digitalRead(FW_PIN_B1) == state;
+}
+
+bool Input::Button2(int state) {
+    return digitalRead(FW_PIN_B2) == state;
+}
+
+bool Input::Button3(int state) {
+    return digitalRead(FW_PIN_B3) == state;
+}
+
+bool Input::Button4(int state) {
+    return digitalRead(FW_PIN_B4) == state;
+}
