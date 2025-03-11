@@ -10,3 +10,6 @@
 [submodule "components/Adafruit_BusIO"]
 	path = components/Adafruit_BusIO
 	url = https://github.com/hikl-gustafik/Adafruit_BusIO
+[submodule "components/Adafruit_MAX1704X"]
+	path = components/Adafruit_MAX1704X
+	url = https://github.com/hikl-gustafik/Adafruit_MAX1704X
