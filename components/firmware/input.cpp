@@ -32,6 +32,12 @@ double Input::FormatJoystickOutput(uint16_t raw) {
     ) {
         return 0.0;
     }
+    if (scaled > FW_JOYSTICK_SATURATION) {
+        return 1.0;
+    }
+    if (scaled < -FW_JOYSTICK_SATURATION) {
+        return -1.0;
+    }
     return scaled;
 }
 

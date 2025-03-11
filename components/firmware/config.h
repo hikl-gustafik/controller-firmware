@@ -1,3 +1,8 @@
+#define FW_PIN_SDA 21
+#define FW_PIN_SCL 22
+
+#define FW_I2C_FREQUENCY 1000000
+
 // Screen
 #define FW_SCREEN_WIDTH 128
 #define FW_SCREEN_HEIGHT 64
@@ -16,6 +21,7 @@
 #define FW_JOYSTICK_MAX 3600
 #define FW_JOYSTICK_MIN 0
 #define FW_JOYSTICK_DEADZONE 0.08
+#define FW_JOYSTICK_SATURATION 0.97
 
 #define FW_PIN_B1 12
 #define FW_PIN_B2 14
