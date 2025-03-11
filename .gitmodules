@@ -1,6 +1,7 @@
 [submodule "components/arduino"]
 	path = components/arduino
 	url = https://github.com/espressif/arduino-esp32
+    ignore = dirty
 [submodule "components/Adafruit_SSD1306"]
 	path = components/Adafruit_SSD1306
 	url = https://github.com/adafruit/Adafruit_SSD1306
