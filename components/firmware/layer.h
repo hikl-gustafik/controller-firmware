@@ -6,8 +6,17 @@
 class Runtime;
 
 class Layer {
-protected:
+public:
     /**
+     * @brief Method overrideable by child layers to return their name.
+     *
+     * Used for menus and debugging.
+     *
+     * @returns Name of the layer.
+     */
+    virtual const char* GetName() const { return "Layer"; }
+protected:
+    /*
      * @brief Runs after being costructed during loading.
      */
     virtual void Initialize(Runtime& runtime) {}
