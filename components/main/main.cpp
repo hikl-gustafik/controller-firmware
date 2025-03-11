@@ -1,6 +1,7 @@
-#include "Adafruit_SSD1306.h"
 #include "layer.h"
 #include "runtime.h"
+
+#include <cmath>
 
 class Bounce : public Layer {
 public:
@@ -73,6 +74,14 @@ class JoyPos : public Layer {
         // B4
         display.setCursor(64, 30);
         display.print(runtime.GetInput().Button4());
+        // Battery percentage
+        display.setCursor(80, 45);
+        if (runtime.GetFuel().IsActive()) {
+            display.print(runtime.GetFuel().Percent());
+            display.print('%');
+        } else {
+            display.print("Charging");
+        }
         //
         display.display();
     }

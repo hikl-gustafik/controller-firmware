@@ -1,5 +1,6 @@
 #pragma once
 
+#include "fuel.h"
 #include "input.h"
 #include "layer.h"
 
@@ -15,7 +16,10 @@ public:
     ~Runtime();
 
     inline Display& GetDisplay() { return m_Display; }
+
     inline Input& GetInput() { return m_Input; }
+
+    inline Fuel& GetFuel() { return m_Fuel; }
 
     /**
      * @brief Start the program loop.
@@ -40,6 +44,7 @@ public:
 private:
     Display m_Display;
     Input m_Input;
+    Fuel m_Fuel;
 
     bool m_ShouldStop = false;
     Layer* m_ActiveLayer = nullptr;

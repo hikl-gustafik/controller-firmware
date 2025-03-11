@@ -10,7 +10,7 @@ void Layer::InternalInitialize(Runtime& runtime) {
 }
 
 void Layer::InternalProcess(Runtime& runtime) {
-    ESP_LOGV(TAG, "Running process on sync layers...");
+    ESP_LOGV(TAG, "Running process on sync layers of %p...", this);
     for (Layer* const layer : m_SyncLayers) {
         ASSERT(layer, "Sync layer is null during process!");
         // Recursive process call
@@ -22,7 +22,7 @@ void Layer::InternalProcess(Runtime& runtime) {
 }
 
 void Layer::InternalShutdown(Runtime& runtime) {
-    ESP_LOGV(TAG, "Shutting down sync layers...");
+    ESP_LOGV(TAG, "Shutting down sync layers of %p...", this);
     for (Layer* layer : m_SyncLayers) {
         ASSERT(layer, "Sync layer is null during shutdown!");
         StopSync(layer, runtime);
