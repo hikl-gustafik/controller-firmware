@@ -14,21 +14,21 @@ public:
     /**
      * @param badResult Value to return if battery is not connected (defaults to 0)
      *
-     * @returns Battery voltage or badResult if battery is not connected
+     * @returns Battery voltage (V) or badResult if battery is not connected
      */
     float Voltage(float badResult = 0.0);
 
     /**
      * @param badResult Value to return if battery is not connected (defaults to 100)
      *
-     * @returns Battery percentage or badResult if battery is not connected
+     * @returns Battery percentage (%) or badResult if battery is not connected
      */
     float Percent(float badResult = 100.0);
 
     /**
      * @param badResult Value to return if battery is not connected (defaults to 0)
      *
-     * @returns Battery charge rate or badResult if battery is not connected
+     * @returns Battery charge rate (%/h) or badResult if battery is not connected
      */
     float ChargeRate(float badResult = 0.0);
 
