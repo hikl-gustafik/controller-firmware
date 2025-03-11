@@ -1,9 +1,10 @@
 #pragma once
 
 #include "config.h"
-#include "esp32-hal-gpio.h"
 
 #include <cstdint>
+
+#include "esp32-hal-gpio.h"
 
 class Input {
 public:
@@ -30,46 +31,46 @@ public:
     double RightJoystickY();
 
     /**
-     * @param state The state to check (default = HIGH)
+     * @param state The state to check (default = LOW)
      *
      * @returns True if the left joystick button is pressed
      */
-    bool LeftJoystickButton(int state = HIGH);
+    bool LeftJoystickButton(int state = LOW);
 
     /**
-     * @param state The state to check (default = HIGH)
+     * @param state The state to check (default = LOW)
      *
      * @returns True if the right joystick button is pressed
      */
-    bool RightJoystickButton(int state = HIGH);
+    bool RightJoystickButton(int state = LOW);
 
     /**
-     * @param state The state to check (default = HIGH)
+     * @param state The state to check (default = LOW)
      *
      * @returns True if button 1 is pressed
      */
-    bool Button1(int state = HIGH);
+    bool Button1(int state = LOW);
 
     /**
-     * @param state The state to check (default = HIGH)
+     * @param state The state to check (default = LOW)
      *
      * @returns True if button 2 is pressed
      */
-    bool Button2(int state = HIGH);
+    bool Button2(int state = LOW);
 
     /**
-     * @param state The state to check (default = HIGH)
+     * @param state The state to check (default = LOW)
      *
      * @returns True if button 3 is pressed
      */
-    bool Button3(int state = HIGH);
+    bool Button3(int state = LOW);
 
     /**
-     * @param state The state to check (default = HIGH)
+     * @param state The state to check (default = LOW)
      *
      * @returns True if button 4 is pressed
      */
-    bool Button4(int state = HIGH);
+    bool Button4(int state = LOW);
 private:
     double FormatJoystickOutput(uint16_t raw);
 };
