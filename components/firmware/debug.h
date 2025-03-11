@@ -4,7 +4,7 @@
 
 #ifdef DIST
 
-#define ASSERT(condition, ...)
+#define ASSERT(condition, ...) condition
 
 #else
 
