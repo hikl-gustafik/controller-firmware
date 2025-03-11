@@ -1,9 +1,10 @@
+// Screen
 #define FW_SCREEN_WIDTH 128
 #define FW_SCREEN_HEIGHT 64
 #define FW_SCREEN_ADDRESS 0x3C
-
 #define FW_PIN_RESET -1
 
+// Input
 #define FW_PIN_RJX 36
 #define FW_PIN_RJY 39
 #define FW_PIN_RJZ 33
@@ -21,5 +22,20 @@
 #define FW_PIN_B3 13
 #define FW_PIN_B4 16
 
+// Vibration
+#define FW_PIN_VMOTOR1 5
+#define FW_PIN_VMOTOR2 15
+#define FW_PIN_VMOTOR3 4
+#define FW_PIN_VMOTOR4 23
+
+#define FW_CHANNEL_VMOTOR1 0
+#define FW_CHANNEL_VMOTOR2 1
+#define FW_CHANNEL_VMOTOR3 2
+#define FW_CHANNEL_VMOTOR4 3
+
+// Speakers
 #define FW_PIN_LSPEAKER 25
 #define FW_PIN_RSPEAKER 26
+
+#define FW_CHANNEL_LSPEAKER 4
+#define FW_CHANNEL_RSPEAKER 5
