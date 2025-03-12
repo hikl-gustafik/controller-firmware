@@ -1,47 +1,56 @@
 #include "layer.h"
 
 #include "debug.h"
+#include "runtime.h"
 
 static const char* TAG = "layer";
 
 void Layer::InternalInitialize(Runtime& runtime) {
-    ESP_LOGD(TAG, "Initializing layer %p...", this);
+    ESP_LOGD(TAG, "Initializing layer %s (%p)...", GetName(), this);
+
+    auto& display = runtime.GetDisplay();
+    // Clear display
+    display.clearDisplay();
+    // Set default text settings
+    display.setTextColor(WHITE);
+    display.setTextSize(2);
+    display.setTextWrap(false);
+    // Welcome message
+    display.setCursor(0, 0);
+    display.print(GetLoadingText());
+    // Initial draw
+    display.display();
+
     Initialize(runtime);
 }
 
-void Layer::InternalProcess(Runtime& runtime) {
-    ESP_LOGV(TAG, "Running process on sync layers of %p...", this);
-    for (Layer* const layer : m_SyncLayers) {
-        ASSERT(layer, "Sync layer is null during process!");
-        // Recursive process call
-        layer->InternalProcess(runtime);
-    }
-
-    ESP_LOGV(TAG, "Running process on layer %p", this);
-    Process(runtime);
+void Layer::InternalProcess(Runtime& runtime, float delta) {
+    ESP_LOGV(TAG, "Running process on layer %s (%p)", GetName(), this);
+    Process(runtime, delta);
 }
 
 void Layer::InternalShutdown(Runtime& runtime) {
-    ESP_LOGV(TAG, "Shutting down sync layers of %p...", this);
-    for (Layer* layer : m_SyncLayers) {
-        ASSERT(layer, "Sync layer is null during shutdown!");
-        StopSync(layer, runtime);
-    }
-
-    ESP_LOGD(TAG, "Shutting down layer %p...", this);
+    ESP_LOGD(TAG, "Shutting down layer %s (%p)...", GetName(), this);
     Shutdown(runtime);
 }
 
-void Layer::StartSync(Layer* layer, Runtime& runtime) {
-    ESP_LOGD(TAG, "Started syncing %p from %p", layer, this);
-    ASSERT(layer, "Sync layer is null during start!");
-    layer->InternalInitialize(runtime);
-    m_SyncLayers.insert(layer);
+void Layer::InternalAwake(Runtime& runtime) {
+    ESP_LOGD(TAG, "Awaking layer %s (%p)", GetName(), this);
+
+    auto& display = runtime.GetDisplay();
+    // Clear display
+    display.clearDisplay();
+    display.display();
+
+    Awake(runtime);
 }
 
-void Layer::StopSync(Layer* layer, Runtime& runtime) {
-    ESP_LOGD(TAG, "Stopped syncing %p from %p", layer, this);
-    ASSERT(layer, "Sync layer is null during stop!");
-    layer->InternalShutdown(runtime);
-    m_SyncLayers.erase(layer);
+void Layer::InternalDraw(Runtime& runtime, float delta) {
+    ESP_LOGV(TAG, "Drawing layer %s (%p)", GetName(), this);
+    Draw(runtime, delta);
+}
+
+void Layer::InternalSleep(Runtime& runtime) {
+    ESP_LOGD(TAG, "Sleeping layer %s (%p)", GetName(), this);
+    Sleep(runtime);
 }

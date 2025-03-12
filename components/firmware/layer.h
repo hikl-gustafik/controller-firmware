@@ -1,7 +1,5 @@
 #pragma once
 
-#include <set>
-
 // Forward declaration to prevent circular dependencies.
 class Runtime;
 
@@ -14,46 +12,63 @@ public:
      *
      * @returns Name of the layer.
      */
-    virtual const char* GetName() const { return "Layer"; }
+    virtual inline const char* GetName() const { return "Layer"; }
 protected:
     /*
-     * @brief Runs after being costructed during loading.
+     * @brief Runs when the layer is pushed to the runtime layer stack.
      */
     virtual void Initialize(Runtime& runtime) {}
 
     /**
-     * @brief Runs repeatedly while the layer is active.
+     * @brief Runs repeatedly while the layer is active, regardless of focus.
+     *
+     * @param delta Rough time since last call, in seconds.
      */
-    virtual void Process(Runtime& runtime) {}
+    virtual void Process(Runtime& runtime, float delta) {}
 
     /**
-     * @brief Runs before the layer is shut down by the runtime.
+     * @brief Runs before the layer is popped off the runtime layer stack.
      */
     virtual void Shutdown(Runtime& runtime) {}
 
     /**
-     * @brief Initialize layer and synchronize its process to this instance.
-     *
-     * @param layer Layer to synchronize.
+     * @brief Runs when the layer gains focus.
      */
-    void StartSync(Layer* layer, Runtime& runtime);
+    virtual void Awake(Runtime& runtime) {}
 
     /**
-     * @brief Shutdown synchronized layer and stop synchronizing.
+     * @brief Runs repeatedly while the layer is active and focused.
      *
-     * Called automatically when this layer is shutting down.
+     * Typically used for drawing and listening for layer-specific input.
+     *
+     * @param delta Rough time since last call, in seconds.
      */
-    void StopSync(Layer* layer, Runtime& runtime);
+    virtual void Draw(Runtime& runtime, float delta) {}
+
+    /**
+     * @brief Runs when the layer loses focus.
+     */
+    virtual void Sleep(Runtime& runtime) {}
+
+    /**
+     * @returns Text to display while the layer is loading.
+     */
+    virtual inline const char* GetLoadingText() { return "Loading..."; }
+
 private:
     // Runtime can access private members of this class.
     friend class Runtime;
 private:
-    // Called by the runtime and parent layers during sync.
+    // Called by the runtime.
     void InternalInitialize(Runtime& runtime);
-    // Called by the runtime and parent layers during sync.
-    void InternalProcess(Runtime& runtime);
-    // Called by the runtime and parent layers during sync.
+    // Called by the runtime.
+    void InternalProcess(Runtime& runtime, float delta);
+    // Called by the runtime.
     void InternalShutdown(Runtime& runtime);
-
-    std::set<Layer*> m_SyncLayers;
+    // Called by the runtime.
+    void InternalAwake(Runtime& runtime);
+    // Called by the runtime.
+    void InternalDraw(Runtime& runtime, float delta);
+    // Called by the runtime.
+    void InternalSleep(Runtime& runtime);
 };

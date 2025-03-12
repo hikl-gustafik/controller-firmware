@@ -1,5 +1,8 @@
 #pragma once
 
+// Out of line, compiler wants it this way for some reason
+#include <vector>
+
 #include "fuel.h"
 #include "input.h"
 #include "layer.h"
@@ -26,7 +29,7 @@ public:
      *
      * Must be called explicitly!
      */
-    void BeginLoop(unsigned int tickDelayMs = 10);
+    void BeginLoop(unsigned int tickDelay = 1);
 
     /**
      * @brief Stop the program loop.
@@ -36,16 +39,34 @@ public:
     void EndLoop();
 
     /**
-     * @brief Shut down the current active layer and load the new one.
-     *
-     * Load = construct and initialize.
+     * @brief Push new layer onto the layer stack and initialize and focus it.
      */
-    void Switch(Layer* layer);
+    void Push(Layer* layer);
+
+    /**
+     * @brief Pop the top layer off the layer stack and shut it down.
+     *
+     * Focuses the layer below it.
+     */
+    void Pop();
+
+    /**
+     * @returns The top layer of the layer stack.
+     */
+    const Layer* Top();
 private:
     Display m_Display;
     Input m_Input;
     Fuel m_Fuel;
 
     bool m_ShouldStop = false;
-    Layer* m_ActiveLayer = nullptr;
+    TaskHandle_t m_DeltaTask;
+
+    // Vector publicly acts as a stack
+    // because we need iteration.
+    std::vector<Layer*> m_LayerStack;
+private:
+    inline static float s_DeltaTime = 0.0f; // Milliseconds
+    static void UpdateDelta(void*);
+    static float GetDelta(); // Seconds
 };

@@ -1,3 +1,5 @@
+#pragma once
+
 #define FW_PIN_SDA 21
 #define FW_PIN_SCL 22
 
