@@ -4,10 +4,10 @@
 
 #include "Wire.h"
 
-static const char* TAG = "fuel";
+static const char* s_Tag = "fuel";
 
 Fuel::Fuel(int maxAttempts, int waitMs) {
-    ESP_LOGD(TAG, "Initializing MAX17048");
+    ESP_LOGD(s_Tag, "Initializing MAX17048");
     m_Device.begin();
 }
 

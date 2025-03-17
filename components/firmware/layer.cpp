@@ -3,10 +3,10 @@
 #include "debug.h"
 #include "runtime.h"
 
-static const char* TAG = "layer";
+static const char* s_Tag = "layer";
 
 void Layer::InternalInitialize(Runtime& runtime) {
-    ESP_LOGD(TAG, "Initializing layer %s (%p)...", GetName(), this);
+    ESP_LOGD(s_Tag, "Initializing layer %s (%p)...", GetName(), this);
 
     auto& display = runtime.GetDisplay();
     // Clear display
@@ -25,17 +25,17 @@ void Layer::InternalInitialize(Runtime& runtime) {
 }
 
 void Layer::InternalProcess(Runtime& runtime, float delta) {
-    ESP_LOGV(TAG, "Running process on layer %s (%p)", GetName(), this);
+    ESP_LOGV(s_Tag, "Running process on layer %s (%p)", GetName(), this);
     Process(runtime, delta);
 }
 
 void Layer::InternalShutdown(Runtime& runtime) {
-    ESP_LOGD(TAG, "Shutting down layer %s (%p)...", GetName(), this);
+    ESP_LOGD(s_Tag, "Shutting down layer %s (%p)...", GetName(), this);
     Shutdown(runtime);
 }
 
 void Layer::InternalAwake(Runtime& runtime) {
-    ESP_LOGD(TAG, "Awaking layer %s (%p)", GetName(), this);
+    ESP_LOGD(s_Tag, "Awaking layer %s (%p)", GetName(), this);
 
     auto& display = runtime.GetDisplay();
     // Clear display
@@ -46,11 +46,11 @@ void Layer::InternalAwake(Runtime& runtime) {
 }
 
 void Layer::InternalDraw(Runtime& runtime, float delta) {
-    ESP_LOGV(TAG, "Drawing layer %s (%p)", GetName(), this);
+    ESP_LOGV(s_Tag, "Drawing layer %s (%p)", GetName(), this);
     Draw(runtime, delta);
 }
 
 void Layer::InternalSleep(Runtime& runtime) {
-    ESP_LOGD(TAG, "Sleeping layer %s (%p)", GetName(), this);
+    ESP_LOGD(s_Tag, "Sleeping layer %s (%p)", GetName(), this);
     Sleep(runtime);
 }
