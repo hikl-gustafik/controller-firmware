@@ -6,15 +6,15 @@
 #include <freertos/FreeRTOS.h>
 #include "Wire.h"
 
-static const char* TAG = "runtime";
+static const char* s_Tag = "runtime";
 
 Runtime::Runtime() :
     m_Display(FW_SCREEN_WIDTH, FW_SCREEN_HEIGHT, &Wire, FW_PIN_RESET)
 {
-    ESP_LOGI(TAG, "Initializing...");
+    ESP_LOGI(s_Tag, "Initializing...");
     Wire.begin(FW_PIN_SDA, FW_PIN_SCL, FW_I2C_FREQUENCY);
 
-    ESP_LOGD(TAG, "Initializing display...");
+    ESP_LOGD(s_Tag, "Initializing display...");
     ASSERT(
         m_Display.begin(SSD1306_SWITCHCAPVCC, FW_SCREEN_ADDRESS),
         "SSD1306 allocation failed! (display)"
@@ -26,29 +26,41 @@ Runtime::Runtime() :
 }
 
 Runtime::~Runtime() {
-    ESP_LOGI(TAG, "Destroying...");
-}
-
-void Runtime::UpdateDelta(void*) {
-    while (true) {
-        s_DeltaTime += pdTICKS_TO_MS(1);
-        vTaskDelay(1);
+    ESP_LOGI(s_Tag, "Destroying...");
+    if (m_Running) {
+        ESP_LOGW(s_Tag, "Loop should be ended before destroying the runtime!");
     }
-    vTaskDelete(NULL);
 }
 
 float Runtime::GetDelta() {
-    float result = s_DeltaTime / 1000.0f;
-    s_DeltaTime = 0.0f;
+    if (!m_Running) {
+        ESP_LOGW(s_Tag, "Requested delta time while not running! Returning 0.");
+        return 0.0f;
+    }
+    float result = m_DeltaTime / 1000.0f;
+    m_DeltaTime = 0.0f;
     return result;
 }
 
 void Runtime::BeginLoop(unsigned int tickDelay) {
-    ESP_LOGD(TAG, "Starting loop...");
-    ESP_LOGV(TAG, "Loop tick delay: %d.", tickDelay);
+    ESP_LOGD(s_Tag, "Starting loop...");
+    ESP_LOGV(s_Tag, "Loop tick delay: %d.", tickDelay);
 
-    // Start delta task
-    xTaskCreate(UpdateDelta, "UpdateDelta", 4096, 0, 1, &m_DeltaTask);
+    if (m_Running) {
+        ESP_LOGW(s_Tag, "Attempted to begin loop while it's already running!");
+        return;
+    }
+
+    // Start delta task.
+    xTaskCreate([](void* pvParameters) {
+        const int delay = 1; // Ticks
+        while (true) {
+            float* deltaTime = (float*)pvParameters;
+            *deltaTime += pdTICKS_TO_MS(delay);
+            vTaskDelay(delay);
+        }
+        vTaskDelete(NULL);
+    }, "UpdateDelta", 4096, &m_DeltaTime, 1, &m_DeltaTask);
 
     // Intialize and awake layers pushed before the loop started.
     for (Layer* layer : m_LayerStack) {
@@ -58,7 +70,8 @@ void Runtime::BeginLoop(unsigned int tickDelay) {
     }
 
     // Run process and draw.
-    while (!m_ShouldStop) {
+    m_Running = true;
+    while (m_Running) {
         float delta = GetDelta();
 
         for (Layer* layer : m_LayerStack) {
@@ -89,17 +102,17 @@ void Runtime::BeginLoop(unsigned int tickDelay) {
     vTaskDelete(m_DeltaTask);
     GetDelta();
 
-    ESP_LOGD(TAG, "Loop exited.");
+    ESP_LOGD(s_Tag, "Loop exited.");
 }
 
 void Runtime::EndLoop() {
-    ESP_LOGD(TAG, "Exiting loop...");
-    m_ShouldStop = true;
+    ESP_LOGD(s_Tag, "Exiting loop...");
+    m_Running = false;
 }
 
 void Runtime::Push(Layer* layer) {
     ASSERT(layer, "Attempted to push a null layer on the layer stack!");
-    ESP_LOGD(TAG, "Pushing layer %s (%p) to the layer stack...", layer->GetName(), layer);
+    ESP_LOGD(s_Tag, "Pushing layer %s (%p) to the layer stack...", layer->GetName(), layer);
 
     // Sleep original top layer.
     if (!m_LayerStack.empty()) {
@@ -117,7 +130,7 @@ void Runtime::Push(Layer* layer) {
 
 void Runtime::Pop() {
     ASSERT(!m_LayerStack.empty(), "Attempted to pop a layer from an empty layer stack!");
-    ESP_LOGD(TAG, "Popping layer %s (%p) from the layer stack...", m_LayerStack.back()->GetName(), m_LayerStack.back());
+    ESP_LOGD(s_Tag, "Popping layer %s (%p) from the layer stack...", m_LayerStack.back()->GetName(), m_LayerStack.back());
 
     // Sleep, shutdown, and pop original top layer.
     Layer* popped = m_LayerStack.back();

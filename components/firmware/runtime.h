@@ -59,14 +59,13 @@ private:
     Input m_Input;
     Fuel m_Fuel;
 
-    bool m_ShouldStop = false;
+    bool m_Running = false;
+
     TaskHandle_t m_DeltaTask;
+    float m_DeltaTime = 0.0f; // Milliseconds
+    float GetDelta(); // Seconds
 
     // Vector publicly acts as a stack
     // because we need iteration.
     std::vector<Layer*> m_LayerStack;
-private:
-    inline static float s_DeltaTime = 0.0f; // Milliseconds
-    static void UpdateDelta(void*);
-    static float GetDelta(); // Seconds
 };
