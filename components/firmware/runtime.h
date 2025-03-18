@@ -4,6 +4,7 @@
 #include <vector>
 
 #include "fuel.h"
+#include "haptics.h"
 #include "input.h"
 #include "layer.h"
 
@@ -20,9 +21,11 @@ public:
 
     inline Display& GetDisplay() { return m_Display; }
 
-    inline Input& GetInput() { return m_Input; }
-
     inline Fuel& GetFuel() { return m_Fuel; }
+
+    inline Haptics& GetHaptics() { return m_Haptics; }
+
+    inline Input& GetInput() { return m_Input; }
 
     /**
      * @brief Start the program loop.
@@ -56,8 +59,9 @@ public:
     const Layer* Top();
 private:
     Display m_Display;
-    Input m_Input;
     Fuel m_Fuel;
+    Haptics m_Haptics;
+    Input m_Input;
 
     bool m_Running = false;
 

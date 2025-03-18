@@ -8,6 +8,7 @@ class Diagnostics : public Layer {
 
     void Draw(Runtime& runtime, float delta) override {
         auto& display = runtime.GetDisplay();
+        auto& haptics = runtime.GetHaptics();
 
         display.clearDisplay();
         display.setTextColor(WHITE);
@@ -32,17 +33,25 @@ class Diagnostics : public Layer {
         display.setCursor(95, 20);
         display.print(runtime.GetInput().RightJoystickButton());
         // B1
+        bool button1 = runtime.GetInput().Button1();
         display.setCursor(40, 50);
-        display.print(runtime.GetInput().Button1());
+        display.print(button1);
+        haptics.SetMotor1(button1 * 50);
         // B2
+        bool button2 = runtime.GetInput().Button2();
         display.setCursor(50, 50);
-        display.print(runtime.GetInput().Button2());
+        display.print(button2);
+        haptics.SetMotor2(button2 * 50);
         // B3
+        bool button3 = runtime.GetInput().Button3();
         display.setCursor(60, 50);
-        display.print(runtime.GetInput().Button3());
+        display.print(button3);
+        haptics.SetMotor3(button3 * 50);
         // B4
+        bool button4 = runtime.GetInput().Button4();
         display.setCursor(70, 50);
-        display.print(runtime.GetInput().Button4());
+        display.print(button4);
+        haptics.SetMotor4(button4 * 50);
         // Battery percentage
         display.setCursor(40, 0);
         if (runtime.GetFuel().IsActive()) {
