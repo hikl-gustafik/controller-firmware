@@ -20,6 +20,7 @@ class Diagnostics : public Layer {
         // LJY
         display.setCursor(0, 10);
         display.print(runtime.GetInput().LeftJoystickY());
+        haptics.SetAll(runtime.GetInput().LeftJoystickY());
         // LJZ
         display.setCursor(0, 20);
         display.print(runtime.GetInput().LeftJoystickButton());
@@ -36,22 +37,18 @@ class Diagnostics : public Layer {
         bool button1 = runtime.GetInput().Button1();
         display.setCursor(40, 50);
         display.print(button1);
-        haptics.SetMotor1(button1 * 50);
         // B2
         bool button2 = runtime.GetInput().Button2();
         display.setCursor(50, 50);
         display.print(button2);
-        haptics.SetMotor2(button2 * 50);
         // B3
         bool button3 = runtime.GetInput().Button3();
         display.setCursor(60, 50);
         display.print(button3);
-        haptics.SetMotor3(button3 * 50);
         // B4
         bool button4 = runtime.GetInput().Button4();
         display.setCursor(70, 50);
         display.print(button4);
-        haptics.SetMotor4(button4 * 50);
         // Battery percentage
         display.setCursor(40, 0);
         if (runtime.GetFuel().IsActive()) {

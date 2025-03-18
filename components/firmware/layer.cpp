@@ -49,5 +49,6 @@ void Layer::InternalDraw(Runtime& runtime, float delta) {
 
 void Layer::InternalSleep(Runtime& runtime) {
     ESP_LOGD(s_Tag, "Sleeping layer %s (%p)", GetName(), this);
+    runtime.GetHaptics().SetAll(0.0f);
     Sleep(runtime);
 }
