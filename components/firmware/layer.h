@@ -54,7 +54,6 @@ protected:
      * @returns Text to display while the layer is loading.
      */
     virtual inline const char* GetLoadingText() { return "Loading..."; }
-
 private:
     // Runtime can access private members of this class.
     friend class Runtime;
@@ -71,4 +70,7 @@ private:
     void InternalDraw(Runtime& runtime, float delta);
     // Called by the runtime.
     void InternalSleep(Runtime& runtime);
+
+    // Reset display settings and display loading screen based on GetLoadingText().
+    void ResetDisplay(Runtime& runtime);
 };

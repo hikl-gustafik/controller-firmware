@@ -5,9 +5,7 @@
 
 static const char* s_Tag = "layer";
 
-void Layer::InternalInitialize(Runtime& runtime) {
-    ESP_LOGD(s_Tag, "Initializing layer %s (%p)...", GetName(), this);
-
+void Layer::ResetDisplay(Runtime& runtime) {
     auto& display = runtime.GetDisplay();
     // Clear display
     display.clearDisplay();
@@ -15,12 +13,16 @@ void Layer::InternalInitialize(Runtime& runtime) {
     display.setTextColor(WHITE);
     display.setTextSize(2);
     display.setTextWrap(false);
-    // Welcome message
+    // Loading screen
     display.setCursor(0, 0);
     display.print(GetLoadingText());
     // Initial draw
     display.display();
+}
 
+void Layer::InternalInitialize(Runtime& runtime) {
+    ESP_LOGD(s_Tag, "Initializing layer %s (%p)...", GetName(), this);
+    ResetDisplay(runtime);
     Initialize(runtime);
 }
 
@@ -36,12 +38,7 @@ void Layer::InternalShutdown(Runtime& runtime) {
 
 void Layer::InternalAwake(Runtime& runtime) {
     ESP_LOGD(s_Tag, "Awaking layer %s (%p)", GetName(), this);
-
-    auto& display = runtime.GetDisplay();
-    // Clear display
-    display.clearDisplay();
-    display.display();
-
+    ResetDisplay(runtime);
     Awake(runtime);
 }
 
