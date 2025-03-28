@@ -58,7 +58,7 @@ protected:
     /**
      * @returns Text to return when the layer is popped. (default: "")
      */
-    virtual inline const char* GetReturnText() { return ""; }
+    virtual inline const char* GetReturnText() const { return ""; }
 private:
     // Runtime can access private members of this class.
     friend class Runtime;
