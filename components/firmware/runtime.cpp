@@ -151,6 +151,7 @@ const char* Runtime::Pop() {
     Layer* popped = m_LayerStack.back();
     // Get return text of the original top layer.
     const char* returnText = popped->GetReturnText();
+    ESP_LOGD(s_Tag, "Return text of the popped layer: \"%s\"", returnText);
     // Sleep, shutdown, and pop original top layer.
     m_LayerStack.pop_back();
     if (popped) {
