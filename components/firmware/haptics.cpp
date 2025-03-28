@@ -1,14 +1,19 @@
 #include "haptics.h"
 
 #include "config.h"
+#include "debug.h"
 
 #include "esp32-hal-ledc.h"
+
+static const char* s_Tag = "haptics";
 
 Haptics::Haptics(uint32_t frequency, uint8_t resolution) :
     m_Frequency(frequency),
     m_Resolution(resolution),
     m_MaxIntensity((1U << resolution) - 1) // (2^resolution) - 1
 {
+    ESP_LOGD(s_Tag, "Initializing haptics...");
+
     ledcAttachChannel(FW_PIN_VMOTOR1, m_Frequency, m_Resolution, FW_CHANNEL_VMOTOR1);
     ledcAttachChannel(FW_PIN_VMOTOR2, m_Frequency, m_Resolution, FW_CHANNEL_VMOTOR2);
     ledcAttachChannel(FW_PIN_VMOTOR3, m_Frequency, m_Resolution, FW_CHANNEL_VMOTOR3);

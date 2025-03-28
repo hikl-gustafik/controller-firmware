@@ -11,9 +11,11 @@ static const char* s_Tag = "runtime";
 Runtime::Runtime() :
     m_Display(FW_SCREEN_WIDTH, FW_SCREEN_HEIGHT, &Wire, FW_PIN_RESET)
 {
+    // Intialize runtime
     ESP_LOGI(s_Tag, "Initializing...");
     Wire.begin(FW_PIN_SDA, FW_PIN_SCL, FW_I2C_FREQUENCY);
 
+    // Initialize display
     ESP_LOGD(s_Tag, "Initializing display...");
     ASSERT(
         m_Display.begin(SSD1306_SWITCHCAPVCC, FW_SCREEN_ADDRESS),
@@ -21,18 +23,29 @@ Runtime::Runtime() :
     );
     m_Display.setRotation(2); // Upside down
     m_Display.clearDisplay(); // Clear display
-    // Initial draw
-    m_Display.display();
+    m_Display.display(); // Initial draw
 
+    // Initialize wifi
     ESP_LOGD(s_Tag, "Initializing wifi...");
     m_Wifi.disconnect();
 }
 
 Runtime::~Runtime() {
-    ESP_LOGI(s_Tag, "Destroying...");
+    ESP_LOGI(s_Tag, "Shutting down...");
     if (m_Running) {
         ESP_LOGW(s_Tag, "Loop should be ended before destroying the runtime!");
     }
+
+    // Shutdown display
+    ESP_LOGD(s_Tag, "Shutting down display...");
+    m_Display.clearDisplay();
+    m_Display.display();
+
+    // Shutdown wifi
+    ESP_LOGD(s_Tag, "Shutting down wifi...");
+    m_Wifi.disconnect();
+
+    ESP_LOGI(s_Tag, "Destruction complete.");
 }
 
 float Runtime::GetDelta() {

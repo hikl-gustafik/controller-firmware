@@ -66,7 +66,10 @@ public:
     const Layer* Top();
 private:
     Display m_Display;
+    void SetupDisplay();
+
     Wifi& m_Wifi = WiFi;
+    void SetupWifi();
 
     Fuel m_Fuel;
     Haptics m_Haptics;

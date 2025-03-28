@@ -1,9 +1,15 @@
 #include "input.h"
 
+#include "debug.h"
+
 #include "esp32-hal-adc.h"
 #include "esp32-hal-gpio.h"
 
+static const char* s_Tag = "input";
+
 Input::Input() {
+    ESP_LOGD(s_Tag, "Initializing input...");
+
     // Left joystick axes
     pinMode(FW_PIN_LJX, INPUT);
     pinMode(FW_PIN_LJY, INPUT);
