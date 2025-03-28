@@ -26,7 +26,7 @@ public:
     // Handled by the runtime
 
     inline Display& GetDisplay() { return m_Display; }
-    inline Wifi GetWifi() { return m_Wifi; }
+    inline Wifi& GetWifi() { return m_Wifi; }
 
     // Handled by custom classes
 
