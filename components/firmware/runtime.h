@@ -3,7 +3,6 @@
 // Out of line, compiler wants it this way for some reason
 #include <vector>
 
-#include "WiFi.h"
 #include "fuel.h"
 #include "haptics.h"
 #include "input.h"
@@ -12,6 +11,7 @@
 #include <Adafruit_GFX.h>
 #include <Adafruit_SSD1306.h>
 #include <Arduino.h>
+#include "WiFi.h"
 
 // Aliases for types handled by the runtime
 
@@ -58,7 +58,7 @@ public:
      *
      * Focuses the layer below it.
      */
-    void Pop();
+    const char* Pop();
 
     /**
      * @returns The top layer of the layer stack.

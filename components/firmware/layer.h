@@ -51,9 +51,14 @@ protected:
     virtual void Sleep(Runtime& runtime) {}
 
     /**
-     * @returns Text to display while the layer is loading.
+     * @returns Text to display while the layer is loading. (default: "Loading...")
      */
     virtual inline const char* GetLoadingText() { return "Loading..."; }
+
+    /**
+     * @returns Text to return when the layer is popped. (default: "")
+     */
+    virtual inline const char* GetReturnText() { return ""; }
 private:
     // Runtime can access private members of this class.
     friend class Runtime;

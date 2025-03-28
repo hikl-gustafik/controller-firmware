@@ -144,12 +144,14 @@ void Runtime::Push(Layer* layer) {
     layer->InternalAwake(*this);
 }
 
-void Runtime::Pop() {
+const char* Runtime::Pop() {
     ASSERT(!m_LayerStack.empty(), "Attempted to pop a layer from an empty layer stack!");
     ESP_LOGD(s_Tag, "Popping layer %s (%p) from the layer stack...", m_LayerStack.back()->GetName(), m_LayerStack.back());
 
-    // Sleep, shutdown, and pop original top layer.
     Layer* popped = m_LayerStack.back();
+    // Get return text of the original top layer.
+    const char* returnText = popped->GetReturnText();
+    // Sleep, shutdown, and pop original top layer.
     m_LayerStack.pop_back();
     if (popped) {
         popped->InternalSleep(*this);
@@ -163,6 +165,8 @@ void Runtime::Pop() {
             top->InternalAwake(*this);
         }
     }
+
+    return returnText;
 }
 
 const Layer* Runtime::Top() {
