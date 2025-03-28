@@ -23,6 +23,9 @@ Runtime::Runtime() :
     m_Display.clearDisplay(); // Clear display
     // Initial draw
     m_Display.display();
+
+    ESP_LOGD(s_Tag, "Initializing wifi...");
+    m_Wifi.disconnect();
 }
 
 Runtime::~Runtime() {
