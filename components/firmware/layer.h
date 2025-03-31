@@ -51,9 +51,12 @@ protected:
     virtual void Sleep(Runtime& runtime) {}
 
     /**
-     * @returns Text to display while the layer is loading. (default: "Loading...")
+     * @returns Text to display while the layer is loading. (default: empty string)
+     *
+     * Can be used to display a loading screen or message. Make sure to clear
+     * the display before returning from Awake().
      */
-    virtual inline const char* GetLoadingText() { return "Loading..."; }
+    virtual inline const char* GetLoadingText() { return ""; }
 
     /**
      * @returns Text to return when the layer is popped. (default: "")
