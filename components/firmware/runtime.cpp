@@ -78,13 +78,6 @@ void Runtime::BeginLoop(unsigned int tickDelay) {
         vTaskDelete(NULL);
     }, "UpdateDelta", 4096, &m_DeltaTime, 1, &m_DeltaTask);
 
-    // Intialize and awake layers pushed before the loop started.
-    for (Layer* layer : m_LayerStack) {
-        ASSERT(layer, "Null layer detected in layer stack!");
-        layer->InternalInitialize(*this);
-        layer->InternalAwake(*this);
-    }
-
     // Run process and draw.
     m_Running = true;
     while (m_Running) {
@@ -107,11 +100,9 @@ void Runtime::BeginLoop(unsigned int tickDelay) {
         vTaskDelay(tickDelay);
     }
 
-    // Sleep and shutdown all layers left on the stack after loop exited.
-    for (Layer* layer : m_LayerStack) {
-        ASSERT(layer, "Null layer detected in layer stack!");
-        layer->InternalSleep(*this);
-        layer->InternalShutdown(*this);
+    // Pop all remaining layers off the stack.
+    while (!m_LayerStack.empty()) {
+        Pop();
     }
 
     // End delta task.
