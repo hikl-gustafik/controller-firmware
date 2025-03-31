@@ -12,9 +12,11 @@ protected:
     const int m_ScaleX  = 10;
     const int m_ScaleY = m_ScaleX;
 
-    void Initialize(Runtime& runtime) override {
+    void Awake(Runtime& runtime) override {
         // Simulate loading
         vTaskDelay(1000);
+        // Clear display after loading
+        runtime.GetDisplay().clearDisplay();
     }
 
     void Draw(Runtime& runtime, float delta) override {
