@@ -1,11 +1,16 @@
+#pragma once
+
 #include "layer.h"
 #include "runtime.h"
 
-template<int Size>
-class Menu : public Layer {
+// Template class cannot be split into .h and .cpp files
+template<size_t Size>
+class LayerPicker : public Layer {
 public:
-    Menu(Layer* (&items)[Size]) : m_Items(items) {}
-    const char* GetName() const override { return "Menu"; }
+    LayerPicker(Layer* (&items)[Size], const char* name = "Layer Picker") :
+        m_Items(items), m_Name(name) { }
+
+    const char* GetName() const override { return m_Name; }
 protected:
     void Draw(Runtime& runtime, float delta) override {
         auto& display = runtime.GetDisplay();
@@ -65,24 +70,11 @@ protected:
             }
         }
     }
-
-    void Process(Runtime& runtime, float delta) override {
-        static const int requiredSeconds = 3;
-        if (runtime.GetInput().Button2()) {
-            m_HoldCounter += delta;
-            if (m_HoldCounter >= requiredSeconds) {
-                while (runtime.Top() != this) {
-                    runtime.Pop();
-                }
-            }
-        } else {
-            m_HoldCounter = 0;
-        }
-    }
 private:
     Layer* (&m_Items)[Size];
+    const char* m_Name;
+
     int m_SelectedIndex = 0;
     int m_PageViewTopIndex = 0;
-    float m_HoldCounter = 0;
 };
 

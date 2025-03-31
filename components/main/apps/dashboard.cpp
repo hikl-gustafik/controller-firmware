@@ -1,9 +1,9 @@
 #include "layer.h"
 #include "runtime.h"
 
-class Diagnostics : public Layer {
+class Dashboard : public Layer {
     const char* GetName() const override {
-        return "Diagnostics";
+        return "Dashboard";
     }
 
     void Draw(Runtime& runtime, float delta) override {

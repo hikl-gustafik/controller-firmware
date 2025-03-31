@@ -3,7 +3,7 @@
 
 class ScreenSaver : public Layer {
 public:
-    const char* GetName() const override { return "ScreenSaver"; }
+    const char* GetName() const override { return "Screen Saver"; }
 protected:
     int m_PositionX = 25;
     int m_PositionY = 25;
@@ -11,6 +11,10 @@ protected:
     int m_VecocityY = -1;
     const int m_ScaleX  = 10;
     const int m_ScaleY = m_ScaleX;
+
+    const char* GetLoadingText() override {
+        return "Example...";
+    }
 
     void Awake(Runtime& runtime) override {
         // Simulate loading
