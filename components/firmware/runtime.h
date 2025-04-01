@@ -61,6 +61,11 @@ public:
     const char* Pop();
 
     /**
+     * @returns The last return text from the last popped layer.
+     */
+    inline const char* GetLastReturnText() { return s_LastPoppedReturnText; }
+
+    /**
      * @returns The top layer of the layer stack.
      */
     const Layer* Top();
@@ -80,6 +85,8 @@ private:
     TaskHandle_t m_DeltaTask;
     float m_DeltaTime = 0.0f; // Milliseconds
     float GetDelta(); // Seconds
+
+    const char* s_LastPoppedReturnText = "";
 
     // Vector publicly acts as a stack
     // because we need iteration.
