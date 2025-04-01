@@ -3,7 +3,9 @@
 #include "layer.h"
 #include "runtime.h"
 
-// Template class cannot be split into .h and .cpp files
+#include "esp32-hal.h"
+
+// Template class cannot be split into .h and .cpp files.
 template<size_t Size>
 class LayerPicker : public Layer {
 public:
@@ -12,6 +14,11 @@ public:
 
     const char* GetName() const override { return m_Name; }
 protected:
+    void Awake(Runtime& runtime) override {
+        // Artifical delay to prevent accidental double clicks.
+        delay(100);
+    }
+
     void Draw(Runtime& runtime, float delta) override {
         auto& display = runtime.GetDisplay();
 
@@ -77,4 +84,3 @@ private:
     int m_SelectedIndex = 0;
     int m_PageViewTopIndex = 0;
 };
-
