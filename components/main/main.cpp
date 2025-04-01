@@ -1,6 +1,7 @@
 #include "layer.h"
 #include "runtime.h"
 
+#include "prebuilt/keyboard.h"
 #include "prebuilt/layer-picker.h"
 
 #include "apps/dashboard.cpp"
@@ -18,8 +19,10 @@ extern "C" void app_main(void) {
 
     // Tests
     ScreenSaver screenSaver;
+    Keyboard keyboard;
     Layer* tests[] = {
         &screenSaver,
+        (Layer*)&keyboard,
     };
     LayerPicker testMenu(tests, "Tests");
 
