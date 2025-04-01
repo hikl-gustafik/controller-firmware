@@ -6,13 +6,16 @@
 
 #include "apps/dashboard.cpp"
 #include "apps/doom.cpp"
+#include "apps/pong.cpp"
 #include "apps/screen-saver.cpp"
 #include "apps/main-menu.cpp"
 
 extern "C" void app_main(void) {
     // Games
+    Pong pong;
     Doom doom;
     Layer* games[] = {
+        &pong,
         &doom,
     };
     LayerPicker gameMenu(games, "Games");
